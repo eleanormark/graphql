@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import {graphql, compose} from 'react-apollo';
-import {getAuthorsQuery, addBookMutation} from '../queries/queries';
+import { 
+  getAuthorsQuery, 
+  addBookMutation, 
+  getBooksQuery 
+} from '../queries/queries';
 
 class AddBook extends Component {
   constructor(props){
@@ -11,9 +15,10 @@ class AddBook extends Component {
       authorId: ''
     }
   }
+
   displayAuthors(){
     let data = this.props.getAuthorsQuery;
-    if(data.loading){
+    if(data.loading || data.authors===undefined){
         return( <option disabled>Loading authors</option> );
     } else {
         return data.authors.map(author => {
@@ -29,10 +34,11 @@ class AddBook extends Component {
         name: this.state.name,
         genre: this.state.genre,
         authorId: this.state.authorId
-      }
+      },
+      refetchQueries: [{query: getBooksQuery}]
     });
   }
-  
+
   render(){
     return(
       <form id="add-book" onSubmit={this.submitFortm.bind(this)}>

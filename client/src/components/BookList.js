@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-import { getBooksQuery } from '../queries/queries';
+import React, {Component} from 'react';
+import {graphql } from 'react-apollo';
+import {getBooksQuery} from '../queries/queries';
 class BookList extends Component {
     displayBooks(){
         var data = this.props.data;
-        if(data.loading){
+        if(data.loading || data.books===undefined){
             return( <div>Loading books...</div> );
         } else {
             return data.books.map(book => {
